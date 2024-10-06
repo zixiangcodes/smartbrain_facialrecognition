@@ -1,0 +1,64 @@
+.image-link-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.description {
+	font-size: 2.15rem;
+	margin-bottom: 1.50rem;
+}
+
+.form-container {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.form {
+	width: 700px;
+	margin-top: 1.5rem;
+	padding: 2rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: space-between;
+	background: transparent, inherit;
+	background-color: rgb(255, 187, 17);
+	background-position: 21px 30px, 19px 30px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+	background-repeat: repeat, repeat, repeat, repeat, repeat, repeat;
+	background-attachment: scroll, scroll, scroll, scroll, scroll, scroll;
+	background-image: radial-gradient(circle farthest-side at 0% 50%, rgb(255, 187, 17) 23.5%, rgba(240, 166, 17, 0) 0px), radial-gradient(circle farthest-side at 0% 50%, rgb(187, 119, 17) 24%, rgba(240, 166, 17, 0) 0px), linear-gradient(rgb(255, 187, 17) 14%, rgba(240, 166, 17, 0) 0px, rgba(240, 166, 17, 0) 85%, rgb(255, 187, 17) 0px), linear-gradient(150deg, rgb(255, 187, 17) 24%, rgb(187, 119, 17) 0px, rgb(187, 119, 17) 26%, rgba(240, 166, 17, 0) 0px, rgba(240, 166, 17, 0) 74%, rgb(187, 119, 17) 0px, rgb(187, 119, 17) 76%, rgb(255, 187, 17) 0px), linear-gradient(30deg, rgb(255, 187, 17) 24%, rgb(187, 119, 17) 0px, rgb(187, 119, 17) 26%, rgba(240, 166, 17, 0) 0px, rgba(240, 166, 17, 0) 74%, rgb(187, 119, 17) 0px, rgb(187, 119, 17) 76%, rgb(255, 187, 17) 0px), linear-gradient(90deg, rgb(187, 119, 17) 2%, rgb(255, 187, 17) 0px, rgb(255, 187, 17) 98%, rgb(187, 119, 17) 0%);
+	background-origin: padding-box, padding-box, padding-box, padding-box, padding-box, padding-box;
+	background-clip: border-box, border-box, border-box, border-box, border-box, border-box;
+	background-size: 40px 60px;
+}
+
+.input-field {
+	font-size: 1.25rem;
+	padding: 0.5rem;
+	width: 70%;
+}
+
+.submit-button {
+	width: 30%;
+	font-size: 1.25rem;
+	padding: 0.5rem 1rem;
+	background-color: #a463f2;
+	color: white;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+
+.submit-button:hover {
+	transform: scale(1.05);
+}
+
+/* Dark mode styles */
+/* @media (prefers-color-scheme: dark) {
+	.form {
+		background-color: #895e00;
+		background-image: radial-gradient(circle farthest-side at 0% 50%, #895e00 23.5%, rgba(134, 88, 0, 0) 0px), radial-gradient(circle farthest-side at 0% 50%, #673c00 24%, rgba(134, 88, 0, 0) 0px), linear-gradient(#895e00 14%, rgba(134, 88, 0, 0) 0px, rgba(134, 88, 0, 0) 85%, #895e00 0px), linear-gradient(150deg, #895e00 24%, #673c00 0px, #673c00 26%, rgba(134, 88, 0, 0) 0px, rgba(134, 88, 0, 0) 74%, #673c00 0px, #673c00 76%, #895e00 0px), linear-gradient(30deg, #895e00 24%, #673c00 0px, #673c00 26%, rgba(134, 88, 0, 0) 0px, rgba(134, 88, 0, 0) 74%, #673c00 0px, #673c00 76%, #895e00 0px), linear-gradient(90deg, #673c00 2%, #895e00 0px, #895e00 98%, #673c00 0%);
+	}
+} */

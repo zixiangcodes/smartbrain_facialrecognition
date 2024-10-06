@@ -1,0 +1,46 @@
+.face-recognition-container {
+	display: flex;
+	justify-content: center;
+}
+
+.image-container {
+	position: relative;
+	margin-top: 2rem;
+	display: inline-block;
+	/* Add this line */
+	border: 3px solid transparent;
+	/* Initially no border (transparent) */
+}
+
+.input-image {
+	width: 700px;
+	height: auto;
+	display: block;
+	/* Add this line */
+	margin-bottom: -5px;
+	/* To fix the thin opening inside the image box. Not sure what is causing it */
+}
+
+/* This is to make a box on a face in the picture */
+.bounding-box {
+	position: absolute;
+	box-shadow: 0 0 0 3px #149df2 inset;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	cursor: pointer;
+}
+
+/* Old usable version */
+/* .bounding-box {
+	position: absolute;
+	box-shadow: 0 0 0 3px #149df2 inset;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	cursor: pointer;
+	top: var(top);
+	right: var(right);
+	bottom: var(bottom);
+	left: var(left);
+} */

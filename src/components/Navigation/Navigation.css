@@ -1,0 +1,20 @@
+.navigation {
+    width: 96%;
+    /* to move the sign in | registration nav-bar */
+    display: flex;
+    justify-content: flex-end;
+    /* margin-right: 500px; */
+}
+
+.nav-link {
+    font-size: 1.5rem;
+    text-decoration: underline;
+    padding: 1rem;
+    cursor: pointer;
+    color: black;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}

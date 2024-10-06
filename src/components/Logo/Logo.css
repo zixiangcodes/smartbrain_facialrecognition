@@ -1,0 +1,29 @@
+.logo-container {
+	margin: 2rem;
+	margin-top: 0;
+}
+
+.tilt-component {
+	margin-left: -25px;
+	margin-top: -45px;
+	height: 200px;
+	width: 200px;
+	background: linear-gradient(100deg, #6495ED 0%, #00008B 100%);
+	border-radius: 0.25rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.tilt-inner {
+	padding: 0.5rem;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo-image {
+	max-width: 90%;
+	max-height: 90%;
+	/* padding-top: 3px; */
+	margin-bottom: 14px;
+}

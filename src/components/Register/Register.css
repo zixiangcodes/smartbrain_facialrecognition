@@ -1,0 +1,82 @@
+.register-form {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* margin: 2rem auto; */
+    /* width: 100%; */
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -300px;
+}
+
+.register-main {
+    background-color: #f0f0f0;
+    padding: 2rem;
+}
+
+.register-content {
+    width: 100%;
+}
+
+.register-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.register-legend {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    margin-top: 1rem;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 25px;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    padding: 0.5rem;
+    width: 100%;
+    border: 1px solid #000000;
+    /* background-color: transparent; */
+    transition: all 0.3s ease;
+    font-size: 20px;
+    /* font-size for input*/
+}
+
+.input-group input:hover,
+.input-group input:focus {
+    background-color: #1bb55b;
+    color: white;
+}
+
+.register-button-container {
+    margin-top: 1.75rem;
+    font-size: 20px;
+}
+
+.register-button {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    background-color: transparent;
+    font-size: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.register-button:hover {
+    transform: scale(1.05);
+}
