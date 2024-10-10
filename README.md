@@ -1,4 +1,4 @@
-# A modified updated version of SmartBrain - 
+# A modified updated version of SmartBrain 
 - Final project for ZTM course <https://www.udemy.com/course/the-complete-web-developer-zero-to-mastery/>
 - Original Repo: https://github.com/aneagoie/smart-brain
 

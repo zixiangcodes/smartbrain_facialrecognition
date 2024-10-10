@@ -1,6 +1,9 @@
 import React from 'react';
 import './Register.css';
 
+// Add this line at the top of your file, after the imports
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+
 class Register extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +29,7 @@ class Register extends React.Component {
 
 	onSubmitSignIn = () => {
 		this.setState({ error: '' }); // Clear any previous errors
-		fetch('http://localhost:3000', {
+		fetch(`${BACKEND_URL}/register`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -44,7 +47,7 @@ class Register extends React.Component {
 			.then(user => {
 				if (user.id) {
 					this.props.loadUser(user)
-					this.props.onRouteChange('home');
+					this.props.onRouteChange('Home');
 				} else {
 					this.setState({ error: 'Registration failed. Please try again.' });
 				}

@@ -1,12 +1,15 @@
 import React from 'react'
 import './SignIn.css'
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+
 class SignIn extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			signInEmail: '',
-			signInPassword: ''
+			signInPassword: '',
+			error: null
 		}
 	}
 
@@ -19,21 +22,35 @@ class SignIn extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
-		fetch('http://localhost:3000/signin', {
-			method: 'post',
+		console.log('Attempting to sign in with:', this.state);
+
+		fetch(`${BACKEND_URL}/signin`, {
+			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				email: this.state.signInEmail,
 				password: this.state.signInPassword
-			})
+			}),
+			credentials: 'include'
 		})
-			.then(response => response.json())
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				return response.json();
+			})
 			.then(user => {
 				if (user.id) {
 					this.props.loadUser(user)
-					this.props.onRouteChange('home');
+					this.props.onRouteChange('Home');
+				} else {
+					this.setState({ error: 'Failed to sign in. Please check your credentials.' });
 				}
 			})
+			.catch(error => {
+				console.error('Error:', error);
+				this.setState({ error: `An error occurred while signing in: ${error.message}` });
+			});
 	}
 
 	render() {
@@ -69,6 +86,7 @@ class SignIn extends React.Component {
 								type="submit"
 								value="Login" />
 						</div>
+						{this.state.error && <p className="error-message">{this.state.error}</p>}
 						<div className="register-link">
 							<p onClick={() => onRouteChange('register')}>Register</p>
 						</div>
