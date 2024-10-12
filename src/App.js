@@ -247,6 +247,22 @@ class App extends Component {
     );
   }
 
+  clearEntries = () => {
+    fetch(`${BACKEND_URL}/clear-entries`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: this.state.user.id
+      })
+    })
+      .then(response => response.json())
+      .then(count => {
+        this.setState(Object.assign(this.state.user, { entries: count }))
+        console.log(`Success, user '${this.state.user.name}', your entries have been reset to 0!`)
+      })
+      .catch(console.log)
+  }
+
   render() {
     const { isSignedIn, imageUrl, route, box, input } = this.state;
     return (
@@ -263,6 +279,7 @@ class App extends Component {
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
               />
+              <button onClick={this.clearEntries} className="clear-button">Clear Entries</button>
               <button onClick={this.clearImage} className="clear-button">Clear Image</button>
               <FaceRecognition box={box} imageUrl={imageUrl} onImageLoad={this.onImageLoad} />
             </div>
