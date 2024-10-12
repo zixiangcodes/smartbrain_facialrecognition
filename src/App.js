@@ -170,6 +170,7 @@ class App extends Component {
     }
   }
 
+  // old working code
   onImageLoad = (imageUrl) => {
     if (imageUrl) {
       fetch("https://api.clarifai.com/v2/models/face-detection/outputs", return_Clarifai_requestOptions(imageUrl))
@@ -184,6 +185,38 @@ class App extends Component {
     }
   }
 
+  // Experimental Change
+  // onImageLoad = (imageUrl) => {
+  //   if (imageUrl) {
+  //     fetch(`${BACKEND_URL}/api/detect-face`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ imageUrl: imageUrl })
+  //     })
+  //       .then(response => response.json())
+  //       .then(result => {
+  //         if (result.outputs && result.outputs[0].data.regions) {
+  //           const box = this.calculateFaceLocation(result);
+  //           this.displayFaceBox(box);
+
+  //           // Update entry count
+  //           fetch(`${BACKEND_URL}/image`, {
+  //             method: 'PUT',
+  //             headers: { 'Content-Type': 'application/json' },
+  //             body: JSON.stringify({ id: this.state.user.id })
+  //           })
+  //             .then(response => response.json())
+  //             .then(count => {
+  //               this.setState(Object.assign(this.state.user, { entries: count }))
+  //             })
+  //             .catch(console.log)
+  //         }
+  //       })
+  //       .catch(error => console.log('Error detecting face:', error));
+  //   }
+  // }
+
+
   displayFaceBox = (box) => {
     console.log(box);
     this.setState({ box: box });
@@ -193,68 +226,104 @@ class App extends Component {
     this.setState({ input: event.target.value });
   }
 
-  // In your onButtonSubmit method:
+  // In your onButtonSubmit method (really old):
+  // onButtonSubmit = () => {
+  //   const { input } = this.state;
+
+  //   if (!input || !this.isValidURL(input)) {
+  //     alert("There is no image URL given or it's an invalid URL. Please try again!");
+  //     return;
+  //   }
+
+  //   this.setState({ imageUrl: input }, () => {
+  //     fetch(`${BACKEND_URL}/api/models/face-detection/outputs`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //         // Remove the Authorization header from here
+  //       },
+  //       body: JSON.stringify({
+  //         "inputs": [
+  //           {
+  //             "data": {
+  //               "image": {
+  //                 "url": input
+  //               }
+  //             }
+  //           }
+  //         ]
+  //       })
+  //     })
+  //       .then(response => {
+  //         if (!response.ok) {
+  //           throw new Error(`HTTP error! status: ${response.status}`);
+  //         }
+  //         return response.json();
+  //       })
+  //       .then(result => {
+  //         if (result.outputs && result.outputs[0].data.regions) {
+  //           const box = this.calculateFaceLocation(result);
+  //           this.displayFaceBox(box);
+
+  //           return fetch(`${BACKEND_URL}/image`, {
+  //             method: 'post',
+  //             headers: { 'Content-Type': 'application/json' },
+  //             body: JSON.stringify({
+  //               id: this.state.user.id
+  //             })
+  //           });
+  //         } else {
+  //           throw new Error('No human face detected in the image.');
+  //         }
+  //       })
+  //       .then(response => response.json())
+  //       .then(count => {
+  //         this.setState(Object.assign(this.state.user, { entries: count }));
+  //       })
+  //       .catch(error => {
+  //         console.error('Error:', error);
+  //         alert(`Error: ${error.message}`);
+  //       });
+  //   });
+  // };
+
   onButtonSubmit = () => {
-    const { input } = this.state;
+    this.setState({ imageUrl: this.state.input });
+    fetch(`${BACKEND_URL}/api/detect-face`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageUrl: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result && result.outputs) {
+          fetch(`${BACKEND_URL}/image`, {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+            .catch(console.log)
 
-    if (!input || !this.isValidURL(input)) {
-      alert("There is no image URL given or it's an invalid URL. Please try again!");
-      return;
-    }
+          this.displayFaceBox(this.calculateFaceLocation(result))
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
 
-    this.setState({ imageUrl: input }, () => {
-      const raw = JSON.stringify({
-        "user_app_id": {
-          "user_id": "jj0sxw2xfk96",
-          "app_id": "test"
-        },
-        "inputs": [
-          {
-            "data": {
-              "image": {
-                "url": input
-              }
-            }
-          }
-        ]
-      });
-
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Key 31d9704946384890b4a3e14dcf1df8db'
-        },
-        body: raw
-      };
-
-      fetch('http://localhost:3000/api/models/face-detection/outputs', requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          if (result.outputs && result.outputs[0].data.regions) {
-            const box = this.calculateFaceLocation(result);
-            this.displayFaceBox(box);
-
-            return fetch(`${BACKEND_URL}/image`, {
-              method: 'put',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                id: this.state.user.id
-              })
-            });
-          } else {
-            throw new Error('No human face detected in the image.');
-          }
-        })
-        .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, { entries: count }));
-        })
-        .catch(error => {
-          console.log('Error:', error);
-        });
-    });
-  };
+  // Experimental code
+  // onButtonSubmit = () => {
+  //   this.setState({ imageUrl: this.state.input }, () => {
+  //     this.onImageLoad(this.state.imageUrl);
+  //   });
+  // }
 
   // Utility function to check if the input is a valid URL
   isValidURL = (string) => {
@@ -290,11 +359,17 @@ class App extends Component {
 
   // New method to clear the image
   clearImage = () => {
-    this.setState({
-      input: '',
-      imageUrl: '',
-      box: {}
-    });
+    this.setState(
+      {
+        input: '',
+        imageUrl: '',
+        box: {},
+      },
+      () => {
+        console.log("Previous image has been successfully cleared!");
+        alert("Previous image has been successfully cleared!");
+      }
+    );
   }
 
   render() {
@@ -313,9 +388,9 @@ class App extends Component {
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
               />
-              {/* New Clear Image button */}
               <button onClick={this.clearImage} className="clear-button">Clear Image</button>
               <FaceRecognition box={box} imageUrl={imageUrl} onImageLoad={this.onImageLoad} />
+              {/* <FaceRecognition box={box} imageUrl={imageUrl} /> */}
             </div>
             : (
               <div className="auth-container">

@@ -9,7 +9,7 @@ class SignIn extends React.Component {
 		this.state = {
 			signInEmail: '',
 			signInPassword: '',
-			error: null
+			error: null,
 		}
 	}
 
