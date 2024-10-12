@@ -4,16 +4,19 @@
     margin: 0 auto;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     position: relative;
-    top: -300px;
+    margin-top: -400px;
+    /* top: -300px; */
     /* To move the sign-in box. Minus makes it move upwards. Plus movies it downwards. */
 }
 
 .signin-main {
     background-color: #f0f0f0;
+    /* padding: 20px; */
     padding: 2rem;
-    margin-top: 70px;
+    /* margin-right: -200px; */
+    /* margin-top: 100px; */
 }
 
 .signin-form {
@@ -34,6 +37,8 @@
 
 .form-group {
     margin-top: 1rem;
+    margin-right: 15px;
+    /* adjust the right margin */
 }
 
 .form-group label {
@@ -44,6 +49,7 @@
 }
 
 .form-group input {
+
     padding: 0.5rem;
     border: 1px solid #000;
     /* background-color: transparent; */

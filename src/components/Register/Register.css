@@ -3,20 +3,19 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     /* margin: 2rem auto; */
     /* width: 100%; */
-    max-width: 400px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     margin: 0 auto;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     position: relative;
-    top: -300px;
+    margin-top: -385px;
 }
 
 .register-main {
     background-color: #f0f0f0;
     padding: 2rem;
+
 }
 
 .register-content {
@@ -37,6 +36,8 @@
 
 .input-group {
     margin-top: 1rem;
+    margin-right: 15px;
+    /* adjust the right margin */
 }
 
 .input-group label {
