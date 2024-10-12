@@ -62,25 +62,45 @@ const return_Clarifai_requestOptions = (imageUrl) => {
   return requestOptions;
 }
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'SignIn',
+  // Note: Change this to 'Home' for testing only. Actual route is 'SignIn'..
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    password: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
+
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'SignIn',
-      // Note: Change this to 'Home' for testing only. Actual route is 'SignIn'..
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        password: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state = initialState
+    /*
+        {
+          input: '',
+            imageUrl: '',
+              box: { },
+          route: 'SignIn',
+            // Note: Change this to 'Home' for testing only. Actual route is 'SignIn'..
+            isSignedIn: false,
+              user: {
+            id: '',
+              name: '',
+                password: '',
+                  email: '',
+                    entries: 0,
+                      joined: ''
+          }
+        }
+    */
   }
 
   loadUser = (data) => {
@@ -201,7 +221,9 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({ isSignedIn: false })
+      this.setState(initialState)
+      // this.setState({ isSignedIn: false })
+      // old code
       this.setState({ route: 'SignIn' }); // Change this line
     } else if (route === 'Home') {
       this.setState({ isSignedIn: true })
