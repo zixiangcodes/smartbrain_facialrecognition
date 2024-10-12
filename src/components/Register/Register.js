@@ -40,13 +40,13 @@ class Register extends React.Component {
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
+					return response.json().then(err => Promise.reject(err));
 				}
 				return response.json();
 			})
-			.then(user => {
-				if (user.id) {
-					this.props.loadUser(user)
+			.then(data => {
+				if (data.user && data.user.id) {
+					this.props.loadUser(data.user)
 					this.props.onRouteChange('Home');
 				} else {
 					this.setState({ error: 'Registration failed. Please try again.' });
@@ -54,11 +54,7 @@ class Register extends React.Component {
 			})
 			.catch(error => {
 				console.error('Error:', error);
-				if (error.message.includes('Unexpected token')) {
-					this.setState({ error: 'Server error. Please make sure the backend server is running.' });
-				} else {
-					this.setState({ error: 'An error occurred. Please try again later.' });
-				}
+				this.setState({ error: error.error || 'An error occurred. Please try again later.' });
 			});
 	}
 

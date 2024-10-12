@@ -6,14 +6,16 @@
 .image-container {
 	position: relative;
 	margin-top: 2rem;
+	margin-bottom: 15px;
 	display: inline-block;
 	/* Add this line */
 	border: 3px solid transparent;
 	/* Initially no border (transparent) */
 }
 
+/* To adjust input image size. Adjust width and height as necessary */
 .input-image {
-	width: 700px;
+	width: 350px;
 	height: auto;
 	display: block;
 	/* Add this line */

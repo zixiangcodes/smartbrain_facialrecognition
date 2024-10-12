@@ -6,7 +6,7 @@ const FaceRecognition = ({ imageUrl, box, onImageLoad }) => {
 		<div className="face-recognition-container">
 			<div className="image-container">
 				<img
-					id="inputimage"
+					id="input-image"
 					alt=""
 					src={imageUrl}
 					className="input-image"
@@ -35,7 +35,7 @@ export default FaceRecognition;
 // 	return (
 // 		<div className="face-recognition-container">
 // 			<div className="image-container">
-// 				<img id="inputimage" alt="" src={imageUrl} className="input-image" />
+// 				<img id="input-image" alt="" src={imageUrl} className="input-image" />
 // 				<div
 // 					className="bounding-box"
 // 					style={{
