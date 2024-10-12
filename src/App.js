@@ -34,30 +34,6 @@ const return_Clarifai_requestOptions = (imageUrl) => {
   const USER_ID = "jj0sxw2xfk96";
   const APP_ID = "test";
 
-  // Change these to whatever model and image URL you want to use
-
-  // # eg : MODEL_ID = 'general-image-detection'
-  // const MODEL_ID = 'face-detection';
-  // # You can also set a particular model version by specifying the version ID
-  // const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
-
-  // #  Model class objects can be inititalised by providing its URL or also by defining respective user_id, app_id and model_id
-  // # eg : model = Model(user_id="clarifai", app_id="main", model_id=MODEL_ID)
-
-  // model_url = "https://clarifai.com/clarifai/main/models/face-detection"
-  // detector_model = Model(
-  //   url = model_url,
-  //   pat = "31d9704946384890b4a3e14dcf1df8db",
-  // )
-
-  // # The predict API gives flexibility to generate predictions for data provided through URL,Filepath and bytes format.
-
-  // # Example for prediction through Bytes:
-  // # model_prediction = model.predict_by_bytes(input_bytes, input_type="image")
-
-  // # Example for prediction through Filepath:
-  // # model_prediction = Model(model_url).predict_by_filepath(filepath, input_type="image")
-
   const raw = JSON.stringify({
     "user_app_id": {
       "user_id": USER_ID,
@@ -73,10 +49,6 @@ const return_Clarifai_requestOptions = (imageUrl) => {
       }
     ]
   });
-
-  ///////////////////////////////////////////////////////////////////////////////////
-  // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
-  ///////////////////////////////////////////////////////////////////////////////////
 
   const requestOptions = {
     method: 'POST',
@@ -123,16 +95,6 @@ class App extends Component {
     })
   }
 
-  /*
-  // old version
-  componentDidMount() {
-    fetch('http://localhost:3000')
-    fetch(`${BACKEND_URL}`)
-      .then(response => response.json())
-      .then(data => console.log(data))
-  }
-  */
-
   componentDidMount() {
     fetch(`${BACKEND_URL}`)
       .then(response => {
@@ -170,7 +132,6 @@ class App extends Component {
     }
   }
 
-  // old working code
   onImageLoad = (imageUrl) => {
     if (imageUrl) {
       fetch("https://api.clarifai.com/v2/models/face-detection/outputs", return_Clarifai_requestOptions(imageUrl))
@@ -185,38 +146,6 @@ class App extends Component {
     }
   }
 
-  // Experimental Change
-  // onImageLoad = (imageUrl) => {
-  //   if (imageUrl) {
-  //     fetch(`${BACKEND_URL}/api/detect-face`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ imageUrl: imageUrl })
-  //     })
-  //       .then(response => response.json())
-  //       .then(result => {
-  //         if (result.outputs && result.outputs[0].data.regions) {
-  //           const box = this.calculateFaceLocation(result);
-  //           this.displayFaceBox(box);
-
-  //           // Update entry count
-  //           fetch(`${BACKEND_URL}/image`, {
-  //             method: 'PUT',
-  //             headers: { 'Content-Type': 'application/json' },
-  //             body: JSON.stringify({ id: this.state.user.id })
-  //           })
-  //             .then(response => response.json())
-  //             .then(count => {
-  //               this.setState(Object.assign(this.state.user, { entries: count }))
-  //             })
-  //             .catch(console.log)
-  //         }
-  //       })
-  //       .catch(error => console.log('Error detecting face:', error));
-  //   }
-  // }
-
-
   displayFaceBox = (box) => {
     console.log(box);
     this.setState({ box: box });
@@ -225,67 +154,6 @@ class App extends Component {
   onInputChange = (event) => {
     this.setState({ input: event.target.value });
   }
-
-  // In your onButtonSubmit method (really old):
-  // onButtonSubmit = () => {
-  //   const { input } = this.state;
-
-  //   if (!input || !this.isValidURL(input)) {
-  //     alert("There is no image URL given or it's an invalid URL. Please try again!");
-  //     return;
-  //   }
-
-  //   this.setState({ imageUrl: input }, () => {
-  //     fetch(`${BACKEND_URL}/api/models/face-detection/outputs`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //         // Remove the Authorization header from here
-  //       },
-  //       body: JSON.stringify({
-  //         "inputs": [
-  //           {
-  //             "data": {
-  //               "image": {
-  //                 "url": input
-  //               }
-  //             }
-  //           }
-  //         ]
-  //       })
-  //     })
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           throw new Error(`HTTP error! status: ${response.status}`);
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(result => {
-  //         if (result.outputs && result.outputs[0].data.regions) {
-  //           const box = this.calculateFaceLocation(result);
-  //           this.displayFaceBox(box);
-
-  //           return fetch(`${BACKEND_URL}/image`, {
-  //             method: 'post',
-  //             headers: { 'Content-Type': 'application/json' },
-  //             body: JSON.stringify({
-  //               id: this.state.user.id
-  //             })
-  //           });
-  //         } else {
-  //           throw new Error('No human face detected in the image.');
-  //         }
-  //       })
-  //       .then(response => response.json())
-  //       .then(count => {
-  //         this.setState(Object.assign(this.state.user, { entries: count }));
-  //       })
-  //       .catch(error => {
-  //         console.error('Error:', error);
-  //         alert(`Error: ${error.message}`);
-  //       });
-  //   });
-  // };
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
@@ -320,13 +188,6 @@ class App extends Component {
       .catch(error => console.log('error', error));
   }
 
-  // Experimental code
-  // onButtonSubmit = () => {
-  //   this.setState({ imageUrl: this.state.input }, () => {
-  //     this.onImageLoad(this.state.imageUrl);
-  //   });
-  // }
-
   // Utility function to check if the input is a valid URL
   isValidURL = (string) => {
     try {
@@ -336,16 +197,6 @@ class App extends Component {
       return false;
     }
   }
-
-  // Incorrect version (to learn from it)
-  // onRouteChange = (route) => {
-  //   if (route === 'signout') {
-  //     this.setState({ isSignedIn: false })
-  //   } else if (route === 'Home') {
-  //     this.setState({ isSignedIn: true })
-  //   }
-  //   this.setState({ route: route });
-  // }
 
   onRouteChange = (route) => {
     if (route === 'signout') {
@@ -359,7 +210,6 @@ class App extends Component {
     }
   }
 
-  // New method to clear the image
   clearImage = () => {
     this.setState(
       {
@@ -392,7 +242,6 @@ class App extends Component {
               />
               <button onClick={this.clearImage} className="clear-button">Clear Image</button>
               <FaceRecognition box={box} imageUrl={imageUrl} onImageLoad={this.onImageLoad} />
-              {/* <FaceRecognition box={box} imageUrl={imageUrl} /> */}
             </div>
             : (
               <div className="auth-container">
