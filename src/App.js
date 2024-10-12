@@ -300,7 +300,8 @@ class App extends Component {
       .then(result => {
         if (result && result.outputs) {
           fetch(`${BACKEND_URL}/image`, {
-            method: 'put',
+            method: 'POST',
+            // previously was 'put'
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               id: this.state.user.id
@@ -308,6 +309,7 @@ class App extends Component {
           })
             .then(response => response.json())
             .then(count => {
+              console.log('Received count:', count);
               this.setState(Object.assign(this.state.user, { entries: count }))
             })
             .catch(console.log)
