@@ -178,6 +178,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
+
     fetch(`${BACKEND_URL}/api/detect-face`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -189,8 +190,7 @@ class App extends Component {
       .then(result => {
         if (result && result.outputs) {
           fetch(`${BACKEND_URL}/image`, {
-            method: 'POST',
-            // previously was 'put'
+            method: 'POST', // previously was 'put'
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               id: this.state.user.id
@@ -199,14 +199,14 @@ class App extends Component {
             .then(response => response.json())
             .then(count => {
               console.log('Received count:', count);
-              this.setState(Object.assign(this.state.user, { entries: count }))
+              this.setState(Object.assign(this.state.user, { entries: count }));
             })
-            .catch(console.log)
+            .catch(error => console.log('Error updating count:', error)); // Error handling for updating count
 
-          this.displayFaceBox(this.calculateFaceLocation(result))
+          this.displayFaceBox(this.calculateFaceLocation(result));
         }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Error detecting face:', error)); // Error handling for face detection
   }
 
   // Utility function to check if the input is a valid URL
