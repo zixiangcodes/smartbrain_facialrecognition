@@ -115,31 +115,6 @@ class App extends Component {
     })
   }
 
-  // Not in use anymore
-  // componentDidMount() {
-  //   fetch(`${BACKEND_URL}`)
-  //     .then(response => {
-  //       const contentType = response.headers.get("content-type");
-  //       if (contentType && contentType.indexOf("application/json") !== -1) {
-  //         return response.json().then(data => ({ data, isJson: true }));
-  //       } else {
-  //         return response.text().then(text => ({ data: text, isJson: false }));
-  //       }
-  //     })
-  //     .then(({ data, isJson }) => {
-  //       if (isJson) {
-  //         console.log('Received JSON data:', data);
-  //         // Handle your JSON data here
-  //       } else {
-  //         console.log('Received non-JSON response:', data);
-  //         // Handle your non-JSON response here
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('There was a problem with the fetch operation:', error);
-  //     });
-  // }
-
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('input-image');

@@ -1,5 +1,5 @@
-import React from 'react'
-import './SignIn.css'
+import React from 'react';
+import './SignIn.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
@@ -21,36 +21,49 @@ class SignIn extends React.Component {
 		this.setState({ signInPassword: event.target.value })
 	}
 
-	onSubmitSignIn = () => {
-		console.log('Attempting to sign in with:', this.state);
+	onSubmitSignIn = async (event) => {
+		event.preventDefault(); // Prevent form default submission
 
-		fetch(`${BACKEND_URL}/signin`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
+		try {
+			console.log('Attempting to sign in with:', {
 				email: this.state.signInEmail,
 				password: this.state.signInPassword
-			}),
-			credentials: 'include'
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-				return response.json();
-			})
-			.then(user => {
-				if (user.id) {
-					this.props.loadUser(user)
-					this.props.onRouteChange('Home');
-				} else {
-					this.setState({ error: 'Failed to sign in. Please check your credentials.' });
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-				this.setState({ error: `An error occurred while signing in: ${error.message}` });
 			});
+
+			const response = await fetch(`${BACKEND_URL}/signin`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					// Remove Accept header if not needed
+				},
+				body: JSON.stringify({
+					email: this.state.signInEmail,
+					password: this.state.signInPassword
+				}),
+				// Remove credentials unless you're actually using cookies
+				// credentials: 'include' 
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			// Check for the success status and user data structure from your backend
+			if (data.status === 'success' && data.user) {
+				this.props.loadUser(data.user);
+				this.props.onRouteChange('Home');
+			} else {
+				throw new Error(data.message || 'Failed to sign in. Please check your credentials.');
+			}
+		} catch (error) {
+			console.error('SignIn Error:', error);
+			this.setState({
+				error: error.message || 'An error occurred while signing in. Please try again.'
+			});
+		}
 	}
 
 	render() {
@@ -58,7 +71,7 @@ class SignIn extends React.Component {
 		return (
 			<article className="signin-container">
 				<main className="signin-main">
-					<div className="signin-form">
+					<form className="signin-form" onSubmit={this.onSubmitSignIn}>
 						<fieldset id="sign_up">
 							<legend>Sign In</legend>
 							<div className="form-group">
@@ -68,6 +81,7 @@ class SignIn extends React.Component {
 									name="email-address"
 									id="email-address"
 									onChange={this.onEmailChange}
+									required
 								/>
 							</div>
 							<div className="form-group">
@@ -77,20 +91,24 @@ class SignIn extends React.Component {
 									name="password"
 									id="password"
 									onChange={this.onPasswordChange}
+									required
 								/>
 							</div>
 						</fieldset>
 						<div className="signin-button">
-							<input
-								onClick={this.onSubmitSignIn}
+							<button
 								type="submit"
-								value="Login" />
+								className="signin-submit">
+								Login
+							</button>
 						</div>
-						{this.state.error && <p className="error-message">{this.state.error}</p>}
+						{this.state.error && (
+							<p className="error-message">{this.state.error}</p>
+						)}
 						<div className="register-link">
 							<p onClick={() => onRouteChange('register')}>Register</p>
 						</div>
-					</div>
+					</form>
 				</main>
 			</article>
 		);
