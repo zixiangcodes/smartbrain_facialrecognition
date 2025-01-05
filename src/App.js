@@ -83,24 +83,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState
-    /*
-        {
-          input: '',
-            imageUrl: '',
-              box: { },
-          route: 'SignIn',
-            // Note: Change this to 'Home' for testing only. Actual route is 'SignIn'..
-            isSignedIn: false,
-              user: {
-            id: '',
-              name: '',
-                password: '',
-                  email: '',
-                    entries: 0,
-                      joined: ''
-          }
-        }
-    */
   }
 
   loadUser = (data) => {
@@ -128,19 +110,19 @@ class App extends Component {
     }
   }
 
-  onImageLoad = (imageUrl) => {
-    if (imageUrl) {
-      fetch("https://api.clarifai.com/v2/models/face-detection/outputs", return_Clarifai_requestOptions(imageUrl))
-        .then(response => response.json())
-        .then(result => {
-          if (result.outputs && result.outputs[0].data.regions) {
-            const box = this.calculateFaceLocation(result);
-            this.displayFaceBox(box);
-          }
-        })
-        .catch(error => console.log('error', error));
-    }
-  }
+  // onImageLoad = (imageUrl) => {
+  //   if (imageUrl) {
+  //     fetch("https://api.clarifai.com/v2/models/face-detection/outputs", return_Clarifai_requestOptions(imageUrl))
+  //       .then(response => response.json())
+  //       .then(result => {
+  //         if (result.outputs && result.outputs[0].data.regions) {
+  //           const box = this.calculateFaceLocation(result);
+  //           this.displayFaceBox(box);
+  //         }
+  //       })
+  //       .catch(error => console.log('error', error));
+  //   }
+  // }
 
   displayFaceBox = (box) => {
     console.log(box);
@@ -172,9 +154,15 @@ class App extends Component {
             })
           })
             .then(response => response.json())
-            .then(count => {
-              console.log('Received count:', count);
-              this.setState(Object.assign(this.state.user, { entries: count }));
+            .then(data => {
+              if (data && typeof data.entries === 'number') {
+                this.setState(prevState => ({
+                  user: {
+                    ...prevState.user,
+                    entries: data.entries
+                  }
+                }));
+              }
             })
             .catch(error => console.log('Error updating count:', error)); // Error handling for updating count
 
@@ -231,11 +219,17 @@ class App extends Component {
       })
     })
       .then(response => response.json())
-      .then(count => {
-        this.setState(Object.assign(this.state.user, { entries: count }))
-        console.log(`Success, user '${this.state.user.name}', your entries have been reset to 0!`)
+      .then(data => {
+        if (data.status === 'success') {
+          this.setState(Object.assign(this.state.user, { entries: data.entries }))
+          console.log(`Success, user '${this.state.user.name}', your entries have been reset to 0!`)
+        } else {
+          console.error('Error clearing entries:', data.message)
+        }
       })
-      .catch(console.log)
+      .catch(error => {
+        console.error('Error:', error)
+      })
   }
 
   render() {
@@ -256,7 +250,8 @@ class App extends Component {
               />
               <button onClick={this.clearEntries} className="clear-button">Clear Entries</button>
               <button onClick={this.clearImage} className="clear-button">Clear Image</button>
-              <FaceRecognition box={box} imageUrl={imageUrl} onImageLoad={this.onImageLoad} />
+              <FaceRecognition box={box} imageUrl={imageUrl} />
+              {/* onImageLoad={this.onImageLoad}  */}
             </div>
             : (
               <div className="auth-container">

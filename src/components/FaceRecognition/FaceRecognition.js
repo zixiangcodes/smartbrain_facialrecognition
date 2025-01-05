@@ -1,7 +1,8 @@
 import React from 'react';
 import './FaceRecognition.css';
 
-const FaceRecognition = ({ imageUrl, box, onImageLoad }) => {
+const FaceRecognition = ({ imageUrl, box }) => {
+	// onImageLoad
 	return (
 		<div className="face-recognition-container">
 			<div className="image-container">
@@ -10,7 +11,7 @@ const FaceRecognition = ({ imageUrl, box, onImageLoad }) => {
 					alt=""
 					src={imageUrl}
 					className="input-image"
-					onLoad={() => onImageLoad(imageUrl)}
+				// onLoad={() => onImageLoad(imageUrl)}
 				/>
 				{box && Object.keys(box).length > 0 && (
 					<div
